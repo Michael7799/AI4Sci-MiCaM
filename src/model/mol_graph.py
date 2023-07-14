@@ -18,7 +18,8 @@ from model.vocab import MotifVocab, SubMotifVocab, Vocab
 
 RDContribDir = os.path.join(os.environ['CONDA_PREFIX'], 'share', 'RDKit', 'Contrib')
 sys.path.append(os.path.join(RDContribDir, 'SA_Score'))
-import sascorer
+
+#import sascorer
 
 sys.path.pop()
 
@@ -37,6 +38,10 @@ QED_MEAN, QED_VAR = 0.5533041888502863, 0.21397359224960685
 SA_MEAN, SA_VAR = 2.8882909807901354, 0.8059540682960904
 
 class MolGraph(object):
+
+    NUM_OPERATIONS = 0
+    OPERATIONS = []
+    MOTIF_VOCAB = None
 
     @classmethod
     def load_operations(cls, operation_path: str, num_operations: int=500):
@@ -85,7 +90,7 @@ class MolGraph(object):
         mol = self.mol
         mol_graph = self.mol_graph.copy()
         merging_graph = mol_graph.copy()
-        for code in self.OPERATIONS:
+        for code in MolGraph.OPERATIONS:
             for (node1, node2) in mol_graph.edges:
                 if not merging_graph.has_edge(node1, node2):
                     continue
@@ -159,6 +164,7 @@ class MolGraph(object):
             motif_smiles_with_idx = graph2smiles(fragment_graph, with_idx=True)
             motif_with_idx = smiles2mol(motif_smiles_with_idx)
             conn_list, ordermap = get_conn_list(motif_with_idx, use_Isotope=True)
+
            
             bpe_graph.nodes[node]['conn_list'] = conn_list
             bpe_graph.nodes[node]['ordermap'] = ordermap
@@ -188,7 +194,8 @@ class MolGraph(object):
         logP = (Descriptors.MolLogP(mol) - LOGP_MEAN) / LOGP_VAR
         Wt = (Descriptors.MolWt(mol) - MOLWT_MEAN) / MOLWT_VAR
         qed = (Descriptors.qed(mol) - QED_MEAN) / QED_VAR
-        sa = (sascorer.calculateScore(mol) - SA_MEAN) / SA_VAR
+        #sa = (sascorer.calculateScore(mol) - SA_MEAN) / SA_VAR
+        sa = 0
         properties = [logP, Wt, qed, sa]
         return properties
 

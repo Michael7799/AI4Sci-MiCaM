@@ -14,8 +14,11 @@ from model.mol_graph import MolGraph
 from model.mydataclass import Paths
 
 
-def process_train_batch(batch: List[str], raw_dir: str, save_dir: str):
+def process_train_batch(batch: List[str], vocab_path: str, raw_dir: str, save_dir: str):
     pos = mp.current_process()._identity[0]
+    if MolGraph.MOTIF_VOCAB == None:
+        MolGraph.load_vocab(vocab_path)
+    
     with tqdm(total = len(batch), desc=f"Processing {pos}", position=pos-1, ncols=80, leave=False) as pbar:
         for file in batch:
             with open(path.join(raw_dir, file), "rb") as f:
@@ -24,8 +27,9 @@ def process_train_batch(batch: List[str], raw_dir: str, save_dir: str):
             torch.save(data, path.join(save_dir, file.split()[0]+".pth"))
             pbar.update()
 
-def process_valid_batch(batch: List[Tuple[int, str]], save_dir: str):
+def process_valid_batch(batch: List[Tuple[int, str]], vocab_path: str, save_dir: str):
     pos = mp.current_process()._identity[0]
+    MolGraph.load_vocab(vocab_path)
     with tqdm(total = len(batch), desc=f"Processing {pos}", position=pos-1, ncols=80, leave=False) as pbar:
         for idx, smi in batch:
             mol = MolGraph(smi, tokenizer="motif")
@@ -46,13 +50,15 @@ def make_trainig_data(
     print(f"[{datetime.now()}] Preprocessing traing data.")
     print(f"Number of workers: {num_workers}. Total number of CPUs: {mp.cpu_count()}.\n")
 
+    #if MolGraph.MOTIF_VOCAB == None:
+    #    MolGraph.load_vocab(vocab_path)
 
     print(f"[{datetime.now()}] Loading training set from {mols_pkl_dir}.\n")
     os.makedirs(train_processed_dir, exist_ok=True)
     data_set = os.listdir(mols_pkl_dir)
     batch_size = (len(data_set) - 1) // num_workers + 1
     batches = [data_set[i : i + batch_size] for i in range(0, len(data_set), batch_size)]
-    func = partial(process_train_batch, raw_dir=mols_pkl_dir, save_dir=train_processed_dir)
+    func = partial(process_train_batch, vocab_path=vocab_path, raw_dir=mols_pkl_dir, save_dir=train_processed_dir)
     with mp.Pool(num_workers, initializer=tqdm.set_lock, initargs=(mp.RLock(),)) as pool:
         pool.map(func, batches)
     
@@ -62,7 +68,7 @@ def make_trainig_data(
     data_set = [(idx, smi.strip("\n")) for idx, smi in enumerate(open(valid_path))]
     batch_size = (len(data_set) - 1) // num_workers + 1
     batches = [data_set[i : i + batch_size] for i in range(0, len(data_set), batch_size)]
-    func = partial(process_valid_batch, save_dir=valid_processed_dir)
+    func = partial(process_valid_batch, vocab_path=vocab_path, save_dir=valid_processed_dir)
     with mp.Pool(num_workers, initializer=tqdm.set_lock, initargs=(mp.RLock(),)) as pool:
         pool.map(func, batches)
 

@@ -14,9 +14,13 @@ from model.mol_graph import MolGraph
 from model.mydataclass import Paths
 
 
-def apply_operations(batch: List[Tuple[int, str]], mols_pkl_dir: str) -> Counter:
+def apply_operations(batch: List[Tuple[int, str]], mols_pkl_dir: str, operation_path: str, num_operations: int=500) -> Counter:
     vocab = Counter()
     pos = mp.current_process()._identity[0]
+
+    if MolGraph.OPERATIONS == []:
+        MolGraph.load_operations(operation_path, num_operations)
+
     with tqdm(total = len(batch), desc=f"Processing {pos}", position=pos-1, ncols=80, leave=False) as pbar:
         for idx, smi in batch:
             mol = MolGraph(smi, tokenizer="motif")
@@ -47,7 +51,7 @@ def motif_vocab_construction(
     vocab = Counter()
     os.makedirs(mols_pkl_dir, exist_ok=True)
     MolGraph.load_operations(operation_path, num_operations)
-    func = partial(apply_operations, mols_pkl_dir=mols_pkl_dir)
+    func = partial(apply_operations, mols_pkl_dir=mols_pkl_dir, operation_path=operation_path, num_operations=num_operations)
     with mp.Pool(num_workers, initializer=tqdm.set_lock, initargs=(mp.RLock(),)) as pool:
         for batch_vocab in pool.imap(func, batches):
             vocab = vocab + batch_vocab
