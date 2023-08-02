@@ -1,0 +1,34 @@
+[2023-08-01 06:16:35,774]: HyperParameters:
+[2023-08-01 06:16:35,774]: 
+        Model Parameters:
+        atom_embed_size         |       [192, 16, 16, 16, 16]
+        edge_embed_size         |       256
+        motif_embed_size        |       [256, 256]
+        hidden_size             |       256
+        latent_size             |       64
+        depth                   |       15
+        motif_depth             |       6
+        virtual_node            |       False
+        pooling                 |       add
+        dropout                 |       0.3
+        
+[2023-08-01 06:16:35,774]: 
+        Training Parameters:
+        lr                      |       0.005
+        lr_anneal_iter          |       50
+        lr_anneal_rate          |       0.99
+        grad_clip_norm          |       1.0
+        steps                   |       30000
+        beta_warmup             |       3000
+        beta_min                |       0.001
+        beta_max                |       0.3
+        beta_anneal_period      |       40000
+        prop_weight             |       0.2
+        
+[2023-08-01 06:16:35,970]: Begin training...
+[2023-08-01 06:17:13,950]: [Step    50] | Loss. KL: 1637.456, decoder_loss: 47.673, pred_loss: 0.36084 | Start_acc. top1:  0.004, top10: 0.051 | Query_acc. top1: 0.000, top10: 0.014 | Params. lr: 0.005000, beta: 0.001000.
+[2023-08-01 06:17:51,096]: [Step   100] | Loss. KL: 2841.698, decoder_loss: 34.531, pred_loss: 0.37694 | Start_acc. top1:  0.004, top10: 0.043 | Query_acc. top1: 0.001, top10: 0.008 | Params. lr: 0.004950, beta: 0.001000.
+[2023-08-01 06:18:29,668]: [Step   150] | Loss. KL: 117.978, decoder_loss: 34.240, pred_loss: 0.35152 | Start_acc. top1:  0.004, top10: 0.039 | Query_acc. top1: 0.004, top10: 0.071 | Params. lr: 0.004901, beta: 0.001000.
+[2023-08-01 06:19:13,786]: [Step   200] | Loss. KL: 55.999, decoder_loss: 31.431, pred_loss: 0.32393 | Start_acc. top1:  0.004, top10: 0.051 | Query_acc. top1: 0.021, top10: 0.116 | Params. lr: 0.004851, beta: 0.001000.
+[2023-08-01 06:20:01,060]: [Step   250] | Loss. KL: 40.475, decoder_loss: 29.763, pred_loss: 0.25222 | Start_acc. top1:  0.012, top10: 0.070 | Query_acc. top1: 0.016, top10: 0.125 | Params. lr: 0.004803, beta: 0.001000.
+[2023-08-01 06:20:38,878]: [Step   300] | Loss. KL: 61.044, decoder_loss: 28.677, pred_loss: 0.28150 | Start_acc. top1:  0.004, top10: 0.102 | Query_acc. top1: 0.021, top10: 0.167 | Params. lr: 0.004755, beta: 0.001000.

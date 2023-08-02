@@ -1,0 +1,28 @@
+[2023-08-01 07:46:12,258]: HyperParameters:
+[2023-08-01 07:46:12,258]: 
+        Model Parameters:
+        atom_embed_size         |       [192, 16, 16, 16, 16]
+        edge_embed_size         |       256
+        motif_embed_size        |       [256, 256]
+        hidden_size             |       256
+        latent_size             |       64
+        depth                   |       15
+        motif_depth             |       6
+        virtual_node            |       False
+        pooling                 |       add
+        dropout                 |       0.3
+        
+[2023-08-01 07:46:12,258]: 
+        Training Parameters:
+        lr                      |       0.005
+        lr_anneal_iter          |       50
+        lr_anneal_rate          |       0.99
+        grad_clip_norm          |       1.0
+        steps                   |       30000
+        beta_warmup             |       3000
+        beta_min                |       0.001
+        beta_max                |       0.3
+        beta_anneal_period      |       40000
+        prop_weight             |       0.2
+        
+[2023-08-01 07:46:12,456]: Begin training...

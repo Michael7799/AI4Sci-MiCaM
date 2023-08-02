@@ -24,7 +24,7 @@ def parse_arguments():
 
     ## merging operation learning, motif vocab construction
     parser.add_argument('--num_operations', type=int, default=500)
-    parser.add_argument('--num_iters', type=int, default=3000)
+    parser.add_argument('--num_iters', type=int, default=500)
     parser.add_argument('--min_frequency', type=int, default=0)
     parser.add_argument('--mp_thd', type=int, default=1e5)
 

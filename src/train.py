@@ -58,6 +58,7 @@ def train(args: argparse.Namespace):
     logging.info(f"Begin training...")
     os.makedirs(paths.model_save_dir)
     stop_train = False
+    
     while True:
         for input in DataLoader(dataset=train_dataset, batch_size=training_params.batch_size, shuffle=True, collate_fn=batch_collate):
             total_step += 1

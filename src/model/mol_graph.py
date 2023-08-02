@@ -23,7 +23,7 @@ sys.path.append(os.path.join(RDContribDir, 'SA_Score'))
 
 sys.path.pop()
 
-ATOM_SYMBOL_VOCAB = Vocab(['*', 'N', 'O', 'Se', 'Cl', 'S', 'C', 'I', 'B', 'Br', 'P', 'Si', 'F'])
+ATOM_SYMBOL_VOCAB = Vocab(['*', 'Cr','F','Hf','Ga','Zr','As','Po','Fc','Te','Au','Mn','Sc','O','Ru','Pt','Br','I','Tl','Pb','S','Pc','Hg','W','B','P','Ge','Se','Ti','C','Sn','Sb','Fe','Np','Cl','Al','Si','Op','Cu','Cn','Na','H','Bi','N','V','Mo','Zn','In'])
 ATOM_ISAROMATIC_VOCAB = Vocab([True, False])
 ATOM_FORMALCHARGE_VOCAB = Vocab(["*", -1, 0, 1, 2, 3])
 ATOM_NUMEXPLICITHS_VOCAB = Vocab(["*", 0, 1, 2, 3])
@@ -44,7 +44,7 @@ class MolGraph(object):
     MOTIF_VOCAB = None
 
     @classmethod
-    def load_operations(cls, operation_path: str, num_operations: int=500):
+    def load_operations(cls, operation_path: str, num_operations: int=1000):
         MolGraph.NUM_OPERATIONS = num_operations
         MolGraph.OPERATIONS = [code.strip('\r\n') for code in open(operation_path)]
         MolGraph.OPERATIONS = MolGraph.OPERATIONS[:num_operations]
